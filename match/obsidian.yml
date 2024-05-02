@@ -1,0 +1,5 @@
+matches:
+# Obsidian
+  - trigger: ":pb"
+    replace: |
+             <div style="page-break-after: always;"></div>
