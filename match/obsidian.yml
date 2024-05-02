@@ -5,12 +5,12 @@ matches:
 # when converting the Markdown file to a PDF file
   - trigger: ":pb"
     replace: |
-             <div style="page-break-after: always;"></div>
+              <div style="page-break-after: always;"></div>
 # This espanso shortcut insert the text NOTE:  in bold red text
   - trigger: ":boldrednote"
     replace: |
-             <strong style="color: red;">NOTE:</strong>
+              <strong style="color: red;">NOTE:</strong>
 # This espanso shortcut insert the text NOTE:  in bold green text
   - trigger: ":boldgreennote"
     replace: |
-             <strong style="color: green;">NOTE:</strong>
+              <strong style="color: green;">NOTE:</strong>
