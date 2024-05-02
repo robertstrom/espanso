@@ -1,0 +1,32 @@
+matches:
+
+  - trigger: ":localip"
+    replace: "{{ip}}"
+    vars:
+      - name: ip_addresses
+        type: shell
+        params:
+          cmd: |
+            # Some localized interface names have UTF-8 characters in them
+            [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+
+            $IPv4Interfaces = Get-NetIPAddress | Where-Object { ($_.AddressFamily -eq "IPv4") -and ($_.IPAddress) }
+
+            return $IPv4Interfaces | ForEach-Object `
+              -Begin { $i = 0 } `
+              -Process {
+                $i++
+                $InterfaceIndex = $i.ToString().PadLeft(2, "0") # Turns 1 character numbers into "0N"
+                
+                return "[#$InterfaceIndex] $($_.IPAddress) - $($_.InterfaceAlias)"
+              }
+
+      - name: choice
+        type: choice
+        params:
+          values: "{{ip_addresses}}"
+
+      - name: ip
+        type: shell
+        params:
+          cmd: return $env:ESPANSO_CHOICE.Split(" ")[1]"
