@@ -3,3 +3,9 @@ matches:
   - trigger: ":pb"
     replace: |
              <div style="page-break-after: always;"></div>
+  - trigger: ":boldrednote"
+    replace: |
+             <strong style="color: red;">NOTE:</strong>
+  - trigger: ":boldgreennote"
+    replace: |
+             <strong style="color: green;">NOTE:</strong>
