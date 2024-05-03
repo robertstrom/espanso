@@ -30,3 +30,26 @@ matches:
         type: shell
         params:
           cmd: return $env:ESPANSO_CHOICE.Split(" ")[1]"
+
+  - trigger: ":ipall"
+    replace: "{{ip}}"
+    vars:
+      - name: ip_addresses
+        type: shell
+        params:
+          cmd: |
+            # Some localized interface names have UTF-8 characters in them
+            [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+
+            $IPv4Interfaces = @(@{ "IPAddress" = (Invoke-WebRequest https://checkip.amazonaws.com); InterfaceAlias = "External" })
+            $IPv4Interfaces += Get-NetIPAddress | Where-Object { ($_.AddressFamily -eq "IPv4") -and ($_.IPAddress) }
+
+            return $IPv4Interfaces | ForEach-Object { "$($_.IPAddress) - $($_.InterfaceAlias)" }
+      - name: choice
+        type: choice
+        params:
+          values: "{{ip_addresses}}"
+      - name: ip
+        type: shell
+        params:
+          cmd: return $env:ESPANSO_CHOICE.Split(" ")[0]
